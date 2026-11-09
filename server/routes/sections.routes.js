@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware.js';
+import { publico } from '../publico.js';
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.get('/:id/items', (req, res) => {
   const rows = db
     .prepare('SELECT * FROM items WHERE section_id = ? AND active = 1 ORDER BY sort_order, id')
     .all(req.params.id);
-  res.json(rows);
+  res.json(rows.map(publico));
 });
 
 router.post('/', requireAuth, (req, res) => {

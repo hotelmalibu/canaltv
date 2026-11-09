@@ -7,7 +7,8 @@ import { fileURLToPath } from 'node:url';
 import { requireAuth } from '../middleware.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.join(__dirname, '..', '..', 'public', 'uploads');
+// UPLOADS_DIR permite guardar los archivos en un disco persistente (p. ej. /var/data/uploads en Render).
+const uploadsDir = process.env.UPLOADS_DIR || path.join(__dirname, '..', '..', 'public', 'uploads');
 fs.mkdirSync(uploadsDir, { recursive: true });
 
 const ALLOWED_IMAGE = /\.(jpe?g|png|gif|webp|svg)$/i;

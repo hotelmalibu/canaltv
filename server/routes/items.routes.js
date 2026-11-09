@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware.js';
+import { publico } from '../publico.js';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.get('/', (req, res) => {
     params.push(req.query.type);
   }
   sql += ' ORDER BY s.sort_order, i.sort_order, i.id';
-  res.json(db.prepare(sql).all(...params));
+  res.json(db.prepare(sql).all(...params).map(publico));
 });
 
 router.post('/', requireAuth, (req, res) => {
@@ -29,10 +30,19 @@ router.post('/', requireAuth, (req, res) => {
   if (!b.section_id || !b.title) {
     return res.status(400).json({ error: 'section_id y title son obligatorios' });
   }
+  const ref = typeof b.external_ref === 'string' && b.external_ref.trim() ? b.external_ref.trim().slice(0, 200) : null;
+  if (ref) {
+    // Idempotente: reintentar con la misma referencia devuelve el ítem ya creado.
+    const previo = db.prepare('SELECT id FROM items WHERE external_ref = ?').get(ref);
+    if (previo) return res.status(200).json({ id: previo.id, existente: true });
+  }
+  if (!db.prepare('SELECT 1 FROM sections WHERE id = ?').get(b.section_id)) {
+    return res.status(400).json({ error: 'La sección no existe' });
+  }
   const info = db
     .prepare(
-      `INSERT INTO items (section_id, title, description, type, media_url, thumbnail_url, price, date, link_url, sort_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      `INSERT INTO items (section_id, title, description, type, media_url, thumbnail_url, price, date, link_url, sort_order, external_ref)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
     .run(
       b.section_id,
@@ -44,7 +54,8 @@ router.post('/', requireAuth, (req, res) => {
       b.price || '',
       b.date || '',
       b.link_url || '',
-      b.sort_order || 0
+      b.sort_order || 0,
+      ref
     );
   res.status(201).json({ id: Number(info.lastInsertRowid) });
 });

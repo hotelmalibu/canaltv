@@ -111,6 +111,25 @@ async function selectSection(id) {
   renderItems();
 }
 
+/** Solo rutas del propio sitio o http(s): descarta `javascript:` y similares. */
+function urlSegura(u) {
+  const s = String(u || '').trim();
+  return /^(\/(?!\/)|https?:\/\/)/i.test(s) ? s : '';
+}
+
+/** Miniatura: la imagen del ítem o, si es un video sin miniatura, su primer fotograma. */
+function miniHTML(i) {
+  const thumb = urlSegura(i.thumbnail_url);
+  const media = urlSegura(i.media_url);
+  if (thumb) return `<div class="mini"><img src="${escapeHTML(thumb)}" alt="" loading="lazy"></div>`;
+  if (i.type === 'image' && media) return `<div class="mini"><img src="${escapeHTML(media)}" alt="" loading="lazy"></div>`;
+  if (i.type === 'video' && media && !/youtu/i.test(media)) {
+    return `<div class="mini"><video src="${escapeHTML(media)}#t=0.8" muted preload="metadata" playsinline></video></div>`;
+  }
+  const icono = { video: '🎬', image: '🖼️', menu: '🍽️', text: '📅' }[i.type] || '📄';
+  return `<div class="mini" aria-hidden="true">${icono}</div>`;
+}
+
 function renderItems() {
   const list = document.getElementById('itemsList');
   if (!items.length) {
@@ -121,12 +140,20 @@ function renderItems() {
   list.innerHTML = `
     <table>
       <thead><tr>
-        <th>Título</th><th>Tipo</th><th>Precio</th><th>Fecha</th><th>Estado</th><th></th>
+        <th>Contenido</th><th>Tipo</th><th>Precio</th><th>Fecha</th><th>Estado</th><th></th>
       </tr></thead>
       <tbody>
         ${items.map((i) => `
           <tr>
-            <td>${escapeHTML(i.title)}</td>
+            <td>
+              <div class="celda-titulo">
+                ${miniHTML(i)}
+                <div>
+                  <b>${escapeHTML(i.title)}${i.origen === 'marketingpro' ? '<span class="tag mp" title="Publicado desde MarketingPro IA">MarketingPro IA</span>' : ''}</b>
+                  ${i.description ? `<small>${escapeHTML(i.description)}</small>` : ''}
+                </div>
+              </div>
+            </td>
             <td><span class="tag">${typeNames[i.type] || i.type}</span></td>
             <td>${i.price ? '$' + escapeHTML(i.price) : '—'}</td>
             <td>${i.date ? escapeHTML(i.date) : '—'}</td>

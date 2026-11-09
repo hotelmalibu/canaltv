@@ -18,6 +18,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/me', requireAuth, (req, res) => {
+  if (req.user.servicio) return res.json({ id: 0, username: req.user.username, servicio: true });
   const user = db.prepare('SELECT id, username FROM users WHERE id = ?').get(req.user.id);
   res.json(user);
 });

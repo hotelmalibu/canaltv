@@ -3,32 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
   <title>Channel Manager — Hotel y Centro de Eventos Malibu</title>
   <link rel="stylesheet" href="tv.css">
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"></div>
+
   <header class="topbar">
     <div class="brand">
       <img class="logo-img" src="/img/malibu-logo.png" alt="Logo Hotel Malibu">
       <div class="brand-text">
         <span id="hotelName" class="hotel-name">HOTEL Y CENTRO DE EVENTOS MALIBU</span>
-        <span class="channel-manager">CHANNEL MANAGER</span>
+        <span class="channel-manager">Canal del hotel</span>
       </div>
     </div>
     <div class="clock">
-      <span id="clockDate"></span>
       <span id="clockTime"></span>
+      <span id="clockDate"></span>
     </div>
   </header>
 
+  <section id="hero" class="hero" hidden aria-label="Destacado"></section>
+
   <nav id="sections" class="sections" aria-label="Secciones"></nav>
 
-  <main id="content" class="content"></main>
+  <main id="content" class="content sin-hero"></main>
 
-  <div id="player" class="player">
+  <div id="player" class="player" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
     <div class="player-top">
       <h2 id="playerTitle"></h2>
-      <button id="playerClose" class="player-close focusable">✕ Cerrar</button>
+      <button id="playerClose" class="player-close focusable">Cerrar <kbd>Atrás</kbd></button>
     </div>
     <div id="playerMedia" class="player-media"></div>
   </div>

@@ -1,7 +1,13 @@
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 
-const SECRET = process.env.JWT_SECRET || 'cambia-esto-en-produccion';
+// Sin JWT_SECRET se usa un secreto aleatorio por arranque (las sesiones se reinician al reiniciar),
+// nunca un valor público por defecto con el que se podrían falsificar sesiones.
+let SECRET = process.env.JWT_SECRET;
+if (!SECRET || SECRET === 'cambia-esto-en-produccion' || SECRET === 'cambia-esta-clave-por-una-larga-y-aleatoria') {
+  SECRET = crypto.randomBytes(32).toString('hex');
+  console.warn('[auth] JWT_SECRET no configurado: se usa un secreto temporal. Defínelo en las variables de entorno.');
+}
 
 export function hashPassword(password) {
   const salt = crypto.randomBytes(16).toString('hex');

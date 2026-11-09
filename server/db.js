@@ -5,10 +5,11 @@ import { fileURLToPath } from 'node:url';
 import { hashPassword } from './auth.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = path.join(__dirname, '..', 'data');
-fs.mkdirSync(dataDir, { recursive: true });
+// DB_PATH permite apuntar la base a un disco persistente (p. ej. /var/data/hotel.db en Render).
+const dbPath = process.env.DB_PATH || path.join(__dirname, '..', 'data', 'hotel.db');
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-export const db = new DatabaseSync(path.join(dataDir, 'hotel.db'));
+export const db = new DatabaseSync(dbPath);
 db.exec('PRAGMA foreign_keys = ON;');
 db.exec('PRAGMA journal_mode = WAL;');
 
@@ -46,6 +47,11 @@ export function initSchema() {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
   `);
+
+  // Migración: referencia externa para que una integración pueda reintentar sin duplicar el ítem.
+  const cols = db.prepare('PRAGMA table_info(items)').all().map((c) => c.name);
+  if (!cols.includes('external_ref')) db.exec('ALTER TABLE items ADD COLUMN external_ref TEXT');
+  db.exec('CREATE UNIQUE INDEX IF NOT EXISTS items_external_ref_uq ON items(external_ref) WHERE external_ref IS NOT NULL');
 }
 
 export function seedIfEmpty() {
