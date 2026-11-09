@@ -1,0 +1,13 @@
+node_modules/
+data/
+public/uploads/*
+!public/uploads/.gitkeep
+.env
+*.log
+
+# Android (build outputs)
+android-tv/.gradle/
+android-tv/build/
+android-tv/app/build/
+android-tv/local.properties
+*.apk

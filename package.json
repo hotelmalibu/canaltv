@@ -1,0 +1,17 @@
+{
+  "name": "hotel-tv",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Canal de TV para hoteles: backend Node.js, panel de administración y app Android TV (VOD).",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.1"
+  }
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hotel TV</title>
+  <link rel="stylesheet" href="tv.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🏨</span>
+      <span id="hotelName">Hotel TV</span>
+    </div>
+    <div class="clock">
+      <span id="clockDate"></span>
+      <span id="clockTime"></span>
+    </div>
+  </header>
+
+  <nav id="sections" class="sections" aria-label="Secciones"></nav>
+
+  <main id="content" class="content"></main>
+
+  <div id="player" class="player">
+    <div class="player-top">
+      <h2 id="playerTitle"></h2>
+      <button id="playerClose" class="player-close focusable">✕ Cerrar</button>
+    </div>
+    <div id="playerMedia" class="player-media"></div>
+  </div>
+
+  <script src="tv.js"></script>
+</body>
+</html>
