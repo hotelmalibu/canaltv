@@ -25,6 +25,9 @@ app.use('/api/uploads', uploadRoutes);
 // Archivos multimedia (soporta Range para poder adelantar/retroceder videos)
 app.use('/uploads', express.static(path.join(publicDir, 'uploads')));
 
+// Imágenes del hotel (fotos y logo)
+app.use('/img', express.static(path.join(publicDir, 'img')));
+
 // Interfaces
 app.use('/tv', express.static(path.join(publicDir, 'tv')));
 app.use('/admin', express.static(path.join(publicDir, 'admin')));

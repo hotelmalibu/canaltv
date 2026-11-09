@@ -1,18 +1,24 @@
 :root {
-  --bg: #0b1020;
-  --bg2: #131a30;
-  --card: #1b2440;
-  --accent: #d4a54a;
-  --accent2: #e8c877;
-  --text: #f2f4f8;
-  --muted: #9aa3b8;
+  --bg: #17191f;
+  --bg2: #24252a;
+  --panel: #2a2d36;
+  --panel2: #343844;
+  --gold: #bfa672;
+  --gold-lt: #e8c877;
+  --bronze: #7a5c1e;
+  --accent: #f5a623;
+  --text: #f4f5f8;
+  --muted: #b8bfd0;
+  --serif: "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   height: 100%;
-  background: radial-gradient(1200px 700px at 50% -10%, #1c2a52 0%, var(--bg) 55%);
+  background:
+    radial-gradient(1200px 600px at 50% -15%, #3a3450 0%, transparent 60%),
+    linear-gradient(180deg, #2b2e39 0%, #17191f 65%);
   color: var(--text);
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   overflow: hidden;
@@ -24,110 +30,111 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 40px 10px;
+  padding: 24px 56px 12px;
 }
-.brand { display: flex; align-items: center; gap: 16px; }
-.logo { font-size: 42px; }
-#hotelName {
-  font-size: 34px;
+.brand { display: flex; align-items: center; gap: 22px; }
+.logo-img { height: 60px; width: auto; object-fit: contain; display: block; }
+.brand-text { display: flex; flex-direction: column; }
+.hotel-name {
+  font-family: var(--serif);
+  font-size: 38px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--accent2);
+  color: var(--gold-lt);
+  line-height: 1.05;
+}
+.channel-manager {
+  margin-top: 6px;
+  font-size: 13px;
+  letter-spacing: 5px;
+  color: var(--muted);
+  text-transform: uppercase;
 }
 .clock { text-align: right; }
-#clockTime { display: block; font-size: 34px; font-weight: 600; font-variant-numeric: tabular-nums; }
+#clockTime { display: block; font-size: 40px; font-weight: 600; font-variant-numeric: tabular-nums; }
 #clockDate { display: block; font-size: 18px; color: var(--muted); }
 
-/* ---------- Navegación de secciones ---------- */
+/* ---------- Secciones ---------- */
 .sections {
   display: flex;
-  gap: 16px;
-  padding: 18px 40px 14px;
+  gap: 18px;
+  padding: 18px 56px 14px;
   flex-wrap: wrap;
 }
 .sections button {
   font-size: 22px;
   font-weight: 600;
   color: var(--muted);
-  background: transparent;
-  border: 2px solid transparent;
+  background: var(--panel);
+  border: 1px solid rgba(191, 166, 114, .35);
   border-radius: 14px;
-  padding: 12px 26px;
+  padding: 12px 28px;
   cursor: pointer;
   transition: all .15s ease;
 }
-.sections button:hover { color: var(--text); }
+.sections button:hover { color: var(--text); border-color: var(--gold); }
 .sections button.active {
-  color: #1a1205;
-  background: linear-gradient(135deg, var(--accent2), var(--accent));
-  border-color: var(--accent2);
+  color: #221a0c;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  border-color: var(--gold-lt);
 }
 
 /* ---------- Contenido ---------- */
 .content {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 26px;
-  padding: 26px 40px 40px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 28px;
+  padding: 20px 56px 40px;
   overflow: auto;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 195px);
 }
 
 .card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: linear-gradient(180deg, var(--card), #141b32);
-  border: 3px solid transparent;
+  background: var(--panel);
+  border: 1px solid rgba(191, 166, 114, .25);
   border-radius: 20px;
-  padding: 24px;
+  overflow: hidden;
   color: var(--text);
   text-align: left;
   cursor: pointer;
   transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 .card:hover { transform: translateY(-4px); }
-.card:focus,
-.card.focused {
+.card:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 6px rgba(212, 165, 74, .25);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 5px rgba(191, 166, 114, .25);
   transform: scale(1.02);
 }
 
 .card .thumb {
-  height: 150px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #25325a, #12182c);
+  height: 190px;
+  background: linear-gradient(135deg, #3a3f52, #1b1e27);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 64px;
   overflow: hidden;
 }
 .card .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-.card h3 { font-size: 24px; line-height: 1.2; }
+.card-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.card h3 { font-size: 25px; line-height: 1.2; }
 .card p { font-size: 17px; color: var(--muted); line-height: 1.35; }
 
-.card .meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: auto;
-}
+.card .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 12px; }
 .badge {
-  background: rgba(212, 165, 74, .18);
-  color: var(--accent2);
-  border: 1px solid rgba(212, 165, 74, .4);
+  background: rgba(191, 166, 114, .16);
+  color: var(--gold-lt);
+  border: 1px solid rgba(191, 166, 114, .45);
   border-radius: 999px;
-  padding: 6px 14px;
-  font-size: 16px;
+  padding: 6px 15px;
+  font-size: 15px;
   font-weight: 600;
 }
-.price { font-size: 24px; font-weight: 700; color: var(--accent2); }
+.price { font-size: 24px; font-weight: 700; color: var(--gold-lt); }
 
 /* ---------- Reproductor ---------- */
 .player {
@@ -144,14 +151,14 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 18px 32px;
-  background: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0));
+  background: linear-gradient(180deg, rgba(0, 0, 0, .9), rgba(0, 0, 0, 0));
 }
 .player-top h2 { font-size: 28px; }
 .player-close {
   font-size: 22px;
   font-weight: 700;
   color: #fff;
-  background: rgba(255,255,255,.12);
+  background: rgba(255, 255, 255, .12);
   border: 2px solid #fff;
   border-radius: 12px;
   padding: 10px 22px;
@@ -165,13 +172,5 @@ html, body {
   padding: 0 32px 32px;
 }
 .player-media video,
-.player-media img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 8px;
-}
-.player-media iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
+.player-media img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+.player-media iframe { width: 100%; height: 100%; border: 0; }

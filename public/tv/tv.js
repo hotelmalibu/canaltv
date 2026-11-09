@@ -1,7 +1,7 @@
 // Pantalla del televisor — Hotel TV
 // Carga las secciones y el contenido desde la API y permite navegar con el control remoto.
 
-const HOTEL_NAME = 'Hotel TV'; // <-- cambia aquí el nombre del hotel
+const HOTEL_NAME = 'HOTEL Y CENTRO DE EVENTOS MALIBU'; // <-- cambia aquí el nombre del hotel
 
 const API = '/api';
 let sections = [];
@@ -65,9 +65,10 @@ function formatDate(d) {
   if (!d) return '';
   const dt = new Date(d.replace(' ', 'T'));
   if (isNaN(dt.getTime())) return d;
+  const hasTime = dt.getHours() !== 0 || dt.getMinutes() !== 0;
   return dt.toLocaleString('es-CO', {
     weekday: 'short', day: 'numeric', month: 'short',
-    hour: '2-digit', minute: '2-digit'
+    ...(hasTime ? { hour: '2-digit', minute: '2-digit' } : {})
   });
 }
 
@@ -90,9 +91,11 @@ function cardHTML(item) {
   return `
     <button class="card focusable" data-id="${item.id}">
       ${thumb}
-      <h3>${escapeHTML(item.title)}</h3>
-      ${item.description ? `<p>${escapeHTML(item.description)}</p>` : ''}
-      ${metaParts.length ? `<div class="meta">${metaParts.join('')}</div>` : ''}
+      <div class="card-body">
+        <h3>${escapeHTML(item.title)}</h3>
+        ${item.description ? `<p>${escapeHTML(item.description)}</p>` : ''}
+        ${metaParts.length ? `<div class="meta">${metaParts.join('')}</div>` : ''}
+      </div>
     </button>`;
 }
 

@@ -64,7 +64,8 @@ export function seedIfEmpty() {
   const s1 = insertSection.run('Programas', 'programas', '🎬', 1).lastInsertRowid;
   const s2 = insertSection.run('Eventos', 'eventos', '📅', 2).lastInsertRowid;
   const s3 = insertSection.run('Restaurante', 'restaurante', '🍽️', 3).lastInsertRowid;
-  const s4 = insertSection.run('Videos de la Región', 'region', '🏞️', 4).lastInsertRowid;
+  const s4 = insertSection.run('Noticias', 'noticias', '📰', 4).lastInsertRowid;
+  const s5 = insertSection.run('Videos de la Región', 'region', '🏞️', 5).lastInsertRowid;
 
   const insertItem = db.prepare(`
     INSERT INTO items (section_id, title, description, type, media_url, thumbnail_url, price, date, link_url, sort_order)
@@ -73,15 +74,24 @@ export function seedIfEmpty() {
 
   const SAMPLE = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/';
 
-  insertItem.run(Number(s1), 'Bienvenida al hotel', 'Video de bienvenida para los huéspedes.', 'video', `${SAMPLE}BigBuckBunny.mp4`, '', '', '', '', 1);
-  insertItem.run(Number(s1), 'Tour por las instalaciones', 'Recorrido por las habitaciones, piscina y spa.', 'video', `${SAMPLE}ForBiggerBlazes.mp4`, '', '', '', '', 2);
+  // Programas
+  insertItem.run(Number(s1), 'Bienvenida al hotel', 'Descubre todo lo que Hotel Malibu tiene para ti.', 'video', `${SAMPLE}BigBuckBunny.mp4`, '/img/hero-fachada.jpg', '', '', '', 1);
+  insertItem.run(Number(s1), 'Tour por las instalaciones', 'Habitaciones, piscina, spa y zonas comunes.', 'video', `${SAMPLE}ForBiggerBlazes.mp4`, '/img/piscina.jpg', '', '', '', 2);
 
-  insertItem.run(Number(s2), 'Noche de música en vivo', 'Viernes 20:00 en el lobby.', 'text', '', '', '', '2026-11-13 20:00', '', 1);
-  insertItem.run(Number(s2), 'Cata de café regional', 'Sábado 10:00, cupo limitado.', 'text', '', '', '', '2026-11-14 10:00', '', 2);
+  // Eventos
+  insertItem.run(Number(s2), 'Noche de música en vivo', 'Viernes 20:00 en el lobby.', 'text', '', '/img/restaurante.jpg', '', '2026-11-13 20:00', '', 1);
+  insertItem.run(Number(s2), 'Cata de café regional', 'Sábado 10:00, cupo limitado.', 'text', '', '/img/serv1.jpg', '', '2026-11-14 10:00', '', 2);
 
-  insertItem.run(Number(s3), 'Ceviche de camarón', 'Preparado con limón y ají de la casa.', 'menu', '', '', '12.00', '', '', 1);
-  insertItem.run(Number(s3), 'Bandeja paisa', 'Plato tradicional de la región.', 'menu', '', '', '10.00', '', '', 2);
-  insertItem.run(Number(s3), 'Jugo de frutas naturales', 'Mango, maracuyá o guanábana.', 'menu', '', '', '3.00', '', '', 3);
+  // Restaurante
+  insertItem.run(Number(s3), 'Ceviche de camarón', 'Con limón y ají de la casa.', 'menu', '', '/img/restaurante.jpg', '12.000', '', '', 1);
+  insertItem.run(Number(s3), 'Bandeja paisa', 'Plato tradicional de la región.', 'menu', '', '/img/serv2.jpg', '18.000', '', '', 2);
+  insertItem.run(Number(s3), 'Jugo de frutas naturales', 'Mango, maracuyá o guanábana.', 'menu', '', '/img/serv3.jpg', '6.000', '', '', 3);
 
-  insertItem.run(Number(s4), 'Descubre nuestra ciudad', 'Video promocional de los atractivos de la región.', 'video', `${SAMPLE}ForBiggerJoyrides.mp4`, '', '', '', '', 1);
+  // Noticias
+  insertItem.run(Number(s4), 'Nueva torre con coworking', 'Espacios modernos para trabajar y reunirse.', 'text', '', '/img/coworking.jpg', '', '2026-11-12 00:00', '', 1);
+  insertItem.run(Number(s4), 'Piscina y zonas renovadas', 'Nuevas áreas para disfrutar en familia.', 'text', '', '/img/piscina.jpg', '', '2026-11-10 00:00', '', 2);
+  insertItem.run(Number(s4), 'Suite de lujo disponible', 'Confort y elegancia en cada detalle.', 'text', '', '/img/suitedelujo.jpg', '', '2026-11-08 00:00', '', 3);
+
+  // Región
+  insertItem.run(Number(s5), 'Descubre nuestra ciudad', 'Video promocional de Sincelejo y sus alrededores.', 'video', `${SAMPLE}ForBiggerJoyrides.mp4`, '/img/hero-fachada.jpg', '', '', '', 1);
 }
