@@ -32,18 +32,18 @@ Luego:
 - Pantalla TV: `https://tu-app.onrender.com/tv/`
 - Pon esa URL `.../tv/` en la constante `TV_URL` de la app Android TV y vuelve a compilar el APK.
 
-### ⚠️ Importante: almacenamiento de videos
+### Datos y videos: Neon (PostgreSQL)
 
-El plan gratis de Render usa **disco efímero**: la base de datos SQLite y los archivos
-subidos se **borran al redesplegar**. Para producción real debes:
+El disco de Render (plan gratis) es **efímero**, así que el contenido NO se guarda ahí. El Channel Manager guarda
+todo en PostgreSQL: secciones, ítems, usuarios **y los videos/imágenes subidos** (tabla `files`).
 
-- **Opción A (recomendada):** usar almacenamiento de objetos (Cloudflare R2, AWS S3 o
-  Backblaze B2) para videos/imágenes y una base de datos gestionada (Neon o Supabase,
-  ambas con plan gratis).
-- **Opción B:** añadir un **disco persistente** en Render (de pago) y listo.
+1. Crea un proyecto en https://neon.tech y copia su cadena de conexión (`postgresql://...?sslmode=require`).
+2. En Render → servicio → **Environment**, añade `DATABASE_URL` con esa cadena.
+3. Redespliega. Al arrancar crea las tablas y, si la base está vacía, el contenido de ejemplo.
 
-Para un **MVP de prueba**, el plan gratis de Render funciona; solo recuerda que los datos
-se reinician en cada despliegue.
+Límites del plan gratis de Neon: 0,5 GB en total. Por eso cada archivo admite hasta `MAX_FILE_MB` (100 MB) y el
+total hasta `MAX_STORAGE_MB` (350 MB); pasado eso la subida se rechaza con un mensaje claro. Los archivos que ya
+ningún ítem usa se borran solos (con una hora de gracia).
 
 ## 3. Alternativa: Railway
 

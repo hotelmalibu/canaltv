@@ -10,10 +10,14 @@
     "dev": "node --watch server/index.js",
     "test": "node --test"
   },
-  "engines": { "node": ">=22.5.0" },
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.15",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.1"
+    "multer": "^2.0.1",
+    "pg": "^8.23.1"
   }
 }

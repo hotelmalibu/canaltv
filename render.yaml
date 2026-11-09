@@ -15,3 +15,6 @@ services:
         sync: false
       - key: SERVICE_API_KEY
         generateValue: true
+      # Cadena de conexión de Neon (postgresql://...?sslmode=require). Sin ella se usa una base temporal.
+      - key: DATABASE_URL
+        sync: false
