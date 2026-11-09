@@ -18,7 +18,7 @@ import android.widget.FrameLayout
  *  - TV real en tu red:  http://192.168.X.X:3000/tv/
  *  - Producción (HTTPS): https://tu-dominio.com/tv/
  */
-private const val TV_URL = "http://10.0.2.2:3000/tv/"
+private const val TV_URL = "https://channel-manager-0z3d.onrender.com/tv/"
 
 class MainActivity : Activity() {
 
