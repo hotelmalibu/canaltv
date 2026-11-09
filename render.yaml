@@ -1,0 +1,15 @@
+# Blueprint de Render para "Channel Manager"
+# Crea el servicio automáticamente al conectar el repositorio desde Render.
+services:
+  - type: web
+    name: channel-manager
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
