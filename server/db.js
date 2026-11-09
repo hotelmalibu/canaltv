@@ -25,6 +25,11 @@ if (process.env.DATABASE_URL) {
     exec: async (sql) => { await pool.query(sql); },
   };
 } else {
+  // PGlite necesita más de 512 MB de memoria al arrancar: en Render (plan gratis) el servicio se caería sin explicación.
+  if (process.env.RENDER === 'true') {
+    console.error('[db] Falta DATABASE_URL. Crea una base en Neon y pega su cadena de conexión en Render → Environment → DATABASE_URL.');
+    process.exit(1);
+  }
   const { PGlite } = await import('@electric-sql/pglite');
   const dir = process.env.DB_DIR || path.join(__dirname, '..', 'data', 'pgdata');
   fs.mkdirSync(path.dirname(dir), { recursive: true });
